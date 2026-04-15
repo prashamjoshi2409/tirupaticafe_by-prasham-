@@ -1,0 +1,1266 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tirupati Cafe - Premium Coffee Experience</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #00704A;
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin-left: 2rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #f0f0f0;
+        }
+        #hero {
+            background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 112, 74, 0.7);
+        }
+        #hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 2rem;
+        }
+        #hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        #hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            background-color: #00704A;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #005a3a;
+        }
+        /* Carousel Styles */
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        .carousel-slide img {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .carousel-slide h3 {
+            color: #00704A;
+            margin-bottom: 0.5rem;
+        }
+        .carousel-slide p {
+            margin-bottom: 1rem;
+        }
+        .carousel-dots {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .dot.active {
+            background: #00704A;
+        }
+        /* Swipe for mobile */
+        @media (max-width: 768px) {
+            .menu-grid {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                display: flex;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+            .menu-card {
+                flex: 0 0 280px;
+                scroll-snap-align: start;
+            }
+        }
+        /* Order Status */
+        #order-status {
+            background: #f9f9f9;
+            padding: 2rem;
+            text-align: center;
+        }
+        #order-status h2 {
+            color: #00704A;
+        }
+        .status-item {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .status-item h4 {
+            margin: 0 0 0.5rem;
+        }
+        .status-item p {
+            margin: 0;
+            color: #555;
+        }
+        /* Pin for bestsellers */
+        .bestseller-pin {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff6b35;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #menu {
+            background-color: #f8f8f8;
+        }
+        #menu h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #00704A;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .menu-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        }
+        .menu-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-bottom: 4px solid #00704A;
+        }
+        .menu-card-content {
+            padding: 1rem;
+        }
+        .menu-card-content h4 {
+            margin: 0;
+            color: #00704A;
+            font-size: 1.1rem;
+        }
+        .menu-card-content p {
+            margin: 0.35rem 0;
+            color: #444;
+            font-size: 0.94rem;
+        }
+        .menu-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem 1rem;
+        }
+        .menu-card-price {
+            font-weight: bold;
+            color: #00704A;
+            font-size: 1.05rem;
+        }
+        .menu-card-action {
+            background-color: #00704A;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .menu-card-action:hover {
+            background-color: #005a3a;
+        }
+        .veg-badge {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: #7dbf6e;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.45rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .cart-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #00704A;
+            color: white;
+            border: 0;
+            border-radius: 50px;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: 700;
+        }
+        .cart-toggle span {
+            margin-left: 8px;
+            padding: 0.1rem 0.45rem;
+            border-radius: 999px;
+            background: #fff;
+            color: #00704A;
+            font-weight: 800;
+        }
+        .cart-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: min(360px, 90vw);
+            height: 100vh;
+            background: white;
+            box-shadow: -8px 0 20px rgba(0,0,0,0.25);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open {
+            transform: translateX(0);
+        }
+        .cart-header {
+            padding: 1rem;
+            background: #00704A;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-body {
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.7rem;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 0.45rem;
+        }
+        .cart-footer {
+            padding: 1rem;
+            border-top: 1px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.6rem;
+        }
+        .cart-footer p {
+            margin: 0.3rem 0;
+        }
+        .cart-clear {
+            background: #d9534f;
+            border: 0;
+            color: #fff;
+            border-radius: 8px;
+            padding: 0.55rem 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        .cart-checkout {
+            background: #00704A;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.55rem 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        .cart-checkout:hover {
+            background: #005a3a;
+        }
+        .cart-item-controls {
+            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            justify-content: flex-start;
+        }
+        .qty-btn, .remove-item {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.2rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .qty-btn:hover, .remove-item:hover {
+            background: #e6e6e6;
+        }
+        .cart-item span.quantity {
+            font-weight: 700;
+            margin: 0 0.3rem;
+        }
+        .modal {
+            position: fixed;
+            z-index: 1300;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal.open {
+            display: flex;
+        }
+        .modal-content {
+            background: #fff;
+            border-radius: 10px;
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+        }
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #00704A;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .menu-card-action:hover {
+            background-color: #005a3a;
+        }
+        .menu-category {
+            padding: 0.9rem;
+            border: 2px solid #e4f7ef;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+        .menu-category h3 {
+            color: #00704A;
+            margin-bottom: 0.9rem;
+            text-align: center;
+            font-size: 1.15rem;
+        }
+        .menu-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .menu-list li {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.96rem;
+        }
+        .menu-list li:last-child {
+            border-bottom: none;
+        }
+        .menu-list .item-name {
+            color: #333;
+            font-weight: 600;
+        }
+        .menu-list .item-price {
+            color: #00704A;
+            font-weight: 700;
+            min-width: 60px;
+            text-align: right;
+        }
+        .add-to-cart {
+            background-color: #00704A;
+            border: none;
+            color: #fff;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 0.38rem 0.7rem;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+        .add-to-cart:hover {
+            background-color: #005a3a;
+        }
+        .menu-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .menu-actions input,
+        .menu-actions select {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            background: #fff;
+            font-size: 0.95rem;
+        }
+        .menu-actions label {
+            font-size: 0.84rem;
+            color: #555;
+            margin-right: 0.35rem;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .menu-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e8e8e8;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+            border-color: #00704A;
+        }
+        .menu-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+        }
+        .menu-card-content {
+            padding: 0.9rem 0.9rem 0.75rem;
+            position: relative;
+            min-height: 130px;
+        }
+        .veg-badge {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            background: #00704A;
+            color: #fff;
+            font-size: 0.67rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+        .menu-card h4 {
+            margin: 0 0 0.35rem;
+            font-size: 1.08rem;
+            color: #1f3e2e;
+        }
+        .menu-card p {
+            margin: 0;
+            color: #555;
+            font-size: 0.88rem;
+            line-height: 1.35;
+            min-height: 40px;
+        }
+        .menu-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.8rem;
+        }
+        .menu-card-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #00704A;
+        }
+        .menu-card-action {
+            border: none;
+            background: #00704A;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 0.4rem 0.88rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .menu-card-action:hover {
+            background: #005a3a;
+        }
+        .menu-list li {display:none;}
+
+        .menu-actions-minmax {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .order-confirmation {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1400;
+        }
+        .order-confirmation.active {
+            display: flex;
+        }
+        .order-confirmation-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.4rem;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.33);
+        }
+        .order-confirmation-content h3 {
+            margin: 0 0 0.6rem;
+            color: #00704A;
+        }
+        .order-confirmation-content button {
+            margin-top: 0.9rem;
+            background: #00704A;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            padding: 0.55rem 1rem;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        #about {
+            background-color: white;
+        }
+        #about h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #00704A;
+        }
+        #about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        #about img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        #contact {
+            background-color: #f8f8f8;
+        }
+        #contact h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #00704A;
+        }
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .contact-item {
+            text-align: center;
+        }
+        .contact-item h3 {
+            color: #00704A;
+        }
+        footer {
+            background-color: #00704A;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        footer p {
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            nav ul {
+                margin-top: 1rem;
+            }
+            nav ul li {
+                margin-left: 0;
+                margin-right: 1rem;
+            }
+            #hero h1 {
+                font-size: 2rem;
+            }
+            #about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Tirupati Cafe</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div id="hero-content">
+            <h1>તાજું સ્વાદ, Tirupati કેફેમાં</h1>
+            <p>પ્રેમથી પકવાયેલું, સંપૂર્ણ 100% શાકાહારી દોસા અને બનેલી કોફી સાથે.</p>
+            <p style="font-size:1.05rem; font-weight:600; color:#ffe0b2;">શ્રેષ્ઠ દોસા, શ્રેષ્ઠ સ્મિત – દરેક પ્રસંગ માટે તૈયાર</p>
+            <a href="#menu" class="btn">Explore Our Menu</a>
+        </div>
+    </section>
+
+    <!-- Chef’s Special Carousel -->
+    <div class="carousel">
+        <div class="carousel-container" id="carousel-container">
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80" alt="Tirupati Special Dosa">
+                <h3>Tirupati Special Dosa</h3>
+                <p>Chef-prepared dosa with a special house masala. ₹320</p>
+                <a href="#menu" class="btn">Order Now</a>
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1510627498534-cf7e9002facc?auto=format&fit=crop&w=800&q=80" alt="Filter Coffee">
+                <h3>Filter Coffee</h3>
+                <p>Fresh filter coffee served in traditional Tamil style. ₹40</p>
+                <a href="#menu" class="btn">Order Now</a>
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80" alt="Masala Dosa">
+                <h3>Masala Dosa</h3>
+                <p>Classic masala dosa with potato filling. ₹90</p>
+                <a href="#menu" class="btn">Order Now</a>
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+        </div>
+    </div>
+
+    <section id="menu">
+        <h2>Our Menu</h2>
+        <div class="menu-actions">
+            <input id="menu-search" type="search" placeholder="Search menu items..." aria-label="Search menu items">
+            <div class="menu-actions-minmax">
+                <label for="menu-price-min">Min ₹</label>
+                <input id="menu-price-min" type="number" min="0" placeholder="0" value="0">
+                <label for="menu-price-max">Max ₹</label>
+                <input id="menu-price-max" type="number" min="0" placeholder="9999" value="9999">
+            </div>
+            <select id="menu-category-filter" aria-label="Filter by category">
+                <option value="all">All categories</option>
+                <option value="Special Dosa">Special Dosa</option>
+                <option value="Hot Beverage">Hot Beverage</option>
+                <option value="Cold Beverages">Cold Beverages</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Tirupati Special">Tirupati Special</option>
+                <option value="Ghee Podi">Ghee Podi</option>
+                <option value="Uttapam">Uttapam</option>
+                <option value="Paneer">Paneer</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dosa">Dosa</option>
+                <option value="Rava Dosa">Rava Dosa</option>
+                <option value="Tirupati Special Dosa">Tirupati Special Dosa</option>
+            </select>
+        </div>
+        <div id="menu-grid" class="menu-grid"></div>
+        <p id="menu-empty" style="display:none; text-align:center; color:#555; margin-top:1rem;">No items match the current filter.</p>
+    </section>
+
+    <button class="cart-toggle" type="button">Cart <span id="cart-count">0</span></button>
+    <div class="cart-panel" id="cart-panel" aria-hidden="true">
+        <div class="cart-header">
+            <h3>My Cart</h3>
+            <button class="cart-close" type="button">✕</button>
+        </div>
+        <div class="cart-body" id="cart-body">
+            <p>Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <p><strong>Total:</strong> ₹<span id="cart-total">0</span></p>
+            <button class="cart-clear" type="button" id="clear-cart">Clear Cart</button>
+            <button class="cart-checkout" type="button" id="checkout-whatsapp">Checkout via WhatsApp</button>
+            <button class="cart-checkout" type="button" id="checkout-email">Checkout via Email</button>
+        </div>
+    </div>
+
+    <div class="order-confirmation" id="order-confirmation" aria-hidden="true">
+        <div class="order-confirmation-content">
+            <h3>Order Confirmation</h3>
+            <p id="order-confirmation-text">Your order has been received.</p>
+            <button type="button" id="close-confirmation">Close</button>
+        </div>
+    </div>
+
+    <div class="modal" id="image-modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" type="button" aria-label="Close">✕</button>
+            <img src="" alt="Item image" id="modal-image">
+        </div>
+    </div>
+
+    <section id="about">
+        <h2>About Tirupati Cafe</h2>
+        <div id="about-content">
+            <div>
+                <h3>Our Story</h3>
+                <p>Founded in 2020, Tirupati Cafe has been serving the community with the finest quality coffee and baked goods. Our passion for coffee drives us to source the best beans from around the world and roast them to perfection.</p>
+                <p>We believe in creating a warm and inviting space where people can relax, work, or catch up with friends. Every cup is made with care, and every customer is treated like family.</p>
+                <a href="#contact" class="btn">Visit Us Today</a>
+            </div>
+            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Tirupati Cafe Interior">
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <h3>Location</h3>
+                <p>123 Main Street<br>Tirupati, India 517501</p>
+            </div>
+            <div class="contact-item">
+                <h3>Hours</h3>
+                <p>Mon-Fri: 7AM - 8PM<br>Sat-Sun: 8AM - 9PM</p>
+            </div>
+            <div class="contact-item">
+                <h3>Contact</h3>
+                <p>Phone: (555) 123-4567<br>Email: info@tirupaticafe.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Order Status -->
+    <section id="order-status">
+        <h2>Live Order Status</h2>
+        <div class="status-item">
+            <h4>Order #TRQ-123456-ABCD</h4>
+            <p>Status: Preparing | Estimated Delivery: 15 mins</p>
+        </div>
+        <div class="status-item">
+            <h4>Order #TRQ-789012-EFGH</h4>
+            <p>Status: Out for Delivery | Estimated Delivery: 5 mins</p>
+        </div>
+        <div class="status-item">
+            <h4>Order #TRQ-345678-IJKL</h4>
+            <p>Status: Delivered | Thank you for choosing Tirupati Cafe!</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tirupati Cafe. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const menuItems = [
+            { name: 'Bahubali Dosa', category: 'Special Dosa', price: 270, description: 'Crispy dosa loaded with spicy potato and rich chutney', image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Tirupati Special Dosa', category: 'Special Dosa', price: 320, description: 'Chef-prepared dosa with a special house masala', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80', bestseller: true },
+            { name: 'Handi Dosa', category: 'Special Dosa', price: 520, description: 'Rich, gourmet dosa served in traditional handi style', image: 'https://images.unsplash.com/photo-1604908554022-bcdf8f29baf7?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cutting Tea', category: 'Hot Beverage', price: 12, description: 'Strong tea with milk in small hot serving', image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Full Tea', category: 'Hot Beverage', price: 25, description: 'Classic full cup of freshly brewed tea', image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Black Tea', category: 'Hot Beverage', price: 25, description: 'Rich black tea without milk', image: 'https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cutting Coffee', category: 'Hot Beverage', price: 25, description: 'Strong coffee shot for the caffeine lovers', image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Filter Coffee', category: 'Hot Beverage', price: 40, description: 'Fresh filter coffee served in traditional Tamil style', image: 'https://images.unsplash.com/photo-1510627498534-cf7e9002facc?auto=format&fit=crop&w=800&q=80', bestseller: true },
+            { name: 'Black Coffee', category: 'Hot Beverage', price: 30, description: 'Pure black coffee, no sugar no milk', image: 'https://images.unsplash.com/photo-1510130387422-82bed34b40e3?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Milk', category: 'Hot Beverage', price: 30, description: 'Creamy warm fresh milk', image: 'https://images.unsplash.com/photo-1547516508-5e3c0c6e6fe5?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Kesar Ukala Haldi', category: 'Hot Beverage', price: 40, description: 'Warm saffron and turmeric milk to relax', image: 'https://images.unsplash.com/photo-1576054149973-13b6050b81fb?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Hot Chocolate', category: 'Hot Beverage', price: 40, description: 'Rich chocolate beverage topped with froth', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cold Coffee', category: 'Cold Beverages', price: 80, description: 'Iced blended coffee with cream', image: 'https://images.unsplash.com/photo-1432139509613-5c4255815697?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Butter Milk', category: 'Cold Beverages', price: 40, description: 'Cooling spiced buttermilk', image: 'https://images.unsplash.com/photo-1542327897-01e0585d49a7?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Lassi', category: 'Cold Beverages', price: 70, description: 'Thick chilled sweet lassi with cardamom', image: 'https://images.unsplash.com/photo-1572099606225-ebd729b9938e?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Soft Drinks', category: 'Cold Beverages', price: 20, description: 'Chilled carbonated soft drinks', image: 'https://images.unsplash.com/photo-1603046891437-1cdbfbc095ba?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Pineapple Sheera', category: 'Snacks', price: 50, description: 'Sweet semolina pudding topped with pineapple bits', image: 'https://images.unsplash.com/photo-1523986371872-9d3ba2e2f67c?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Upma', category: 'Snacks', price: 50, description: 'Soft semolina upma with mild spices', image: 'https://images.unsplash.com/photo-1602651649872-1b7a091709a2?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Idli', category: 'Snacks', price: 50, description: 'Soft steamed rice cakes', image: 'https://images.unsplash.com/photo-1576510690167-4b3f8acb61b0?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Medu Vada', category: 'Snacks', price: 60, description: 'Crispy lentil doughnuts with chutney', image: 'https://images.unsplash.com/photo-1513161455079-7dc1de15ef3e?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Idli Vada Mix', category: 'Snacks', price: 60, description: 'Combo of idli and medu vada', image: 'https://images.unsplash.com/photo-1582454965811-1f30bb094f5f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Dal Vada', category: 'Snacks', price: 60, description: 'Crunchy dal vadas with spicy chutney', image: 'https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Sabudana Vada', category: 'Snacks', price: 70, description: 'Crispy sago vada served with chutney', image: 'https://images.unsplash.com/photo-1532288576096-d27d31a0f209?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Rasam Vada Idli', category: 'Snacks', price: 60, description: 'Idli with tangy rasam and vada', image: 'https://images.unsplash.com/photo-1580843764533-9fa8c5077e29?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Puri Bhaji', category: 'Snacks', price: 80, description: 'Fluffy puris with spicy potato bhaji', image: 'https://images.unsplash.com/photo-1562059390-a761a0847681?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Dahi Vada', category: 'Snacks', price: 80, description: 'Soft lentil vadas in creamy yogurt', image: 'https://images.unsplash.com/photo-1578144840809-c69d5b7f20d5?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Coin Idli', category: 'Tirupati Special', price: 80, description: 'Small idlis with special herbs', image: 'https://images.unsplash.com/photo-1583201511548-85a5cb4558e5?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Butter Idli', category: 'Tirupati Special', price: 80, description: 'Soft idli tossed with butter and spices', image: 'https://images.unsplash.com/photo-1581349485479-a9a7a6c0b094?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Idli', category: 'Tirupati Special', price: 80, description: 'Idli with fragrant ghee and masala', image: 'https://images.unsplash.com/photo-1601364477616-09a756e7d1f3?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ragi Idli', category: 'Tirupati Special', price: 80, description: 'Healthy millets idli with ragi', image: 'https://images.unsplash.com/photo-1626255560888-3108f6c8699b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Masala Idli', category: 'Tirupati Special', price: 90, description: 'Idli tossed in special masala powder', image: 'https://images.unsplash.com/photo-1589927986089-35812389fcc8?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Thava Idli', category: 'Tirupati Special', price: 90, description: 'Idli roasted with butter and spices', image: 'https://images.unsplash.com/photo-1578959355309-75b33d94da9a?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Thate Idli', category: 'Tirupati Special', price: 90, description: 'Crispy change in texture with idli', image: 'https://images.unsplash.com/photo-1626202985951-5fdbe8bfddf5?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Mysore Idli', category: 'Tirupati Special', price: 120, description: 'Spicy red chutney stuffed idlis', image: 'https://images.unsplash.com/photo-1554284111-55f0ff845863?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Crispy Idli', category: 'Tirupati Special', price: 120, description: 'Shallow fried crispy idli pieces', image: 'https://images.unsplash.com/photo-1598115474738-1224fbda1f8f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Chilli Idli', category: 'Tirupati Special', price: 120, description: 'Spicy and tangy chilli idli', image: 'https://images.unsplash.com/photo-1598136492229-60a35f6f6f64?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cheese Idli', category: 'Tirupati Special', price: 130, description: 'Idli drizzled with melted cheese', image: 'https://images.unsplash.com/photo-1589308078059-1dabe82af703?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Schezwan Idli', category: 'Tirupati Special', price: 120, description: 'Schezwan style spicy idli', image: 'https://images.unsplash.com/photo-1602525802178-6fbf74d1aec5?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Garlic Cheese Idli', category: 'Tirupati Special', price: 130, description: 'Garlic and cheese overloaded idli', image: 'https://images.unsplash.com/photo-1585744396345-3abe97f22e2a?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Podi Idli', category: 'Ghee Podi', price: 140, description: 'Ghee and podi coated idlis', image: 'https://images.unsplash.com/photo-1554149461-91b71eea94f7?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Podi Vada', category: 'Ghee Podi', price: 140, description: 'Podi covered vada with ghee', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Podi Upma', category: 'Ghee Podi', price: 90, description: 'Flavorful upma with ghee podi', image: 'https://images.unsplash.com/photo-1604908574983-49f06b66ccf2?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Podi Dosa', category: 'Ghee Podi', price: 140, description: 'Crispy dosa with ghee podi topping', image: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Roast Dosa', category: 'Ghee Podi', price: 130, description: 'Super crispy ghee roast dosa', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ghee Podi Uttapam', category: 'Ghee Podi', price: 140, description: 'Uttapam with ghee and podi', image: 'https://images.unsplash.com/photo-1612552818380-3757ec695544?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Sada Uttapam', category: 'Uttapam', price: 60, description: 'Classic soft uttapam', image: 'https://images.unsplash.com/photo-1548943487-a2e4e0f0f349?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Onion Uttapam', category: 'Uttapam', price: 80, description: 'Uttapam topped with crisp onions', image: 'https://images.unsplash.com/photo-1609984524375-06149d1f7e36?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Tomato Uttapam', category: 'Uttapam', price: 80, description: 'Juicy tomato uttapam', image: 'https://images.unsplash.com/photo-1561668033-ec4b84f13c5a?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Onion Tomato Uttapam', category: 'Uttapam', price: 80, description: 'Double veg uttapam', image: 'https://images.unsplash.com/photo-1543150977-0b2a25032310?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Masala Uttapam', category: 'Uttapam', price: 100, description: 'Spicy masala uttapam', image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Vegetable Uttapam', category: 'Uttapam', price: 90, description: 'Loaded with grated veggies', image: 'https://images.unsplash.com/photo-1587899891849-592240c47766?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Mysore Sada Uttapam', category: 'Uttapam', price: 80, description: 'Mysore chutney spread uttapam', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Schezwan Sada Uttapam', category: 'Uttapam', price: 80, description: 'Schezwan flam utsu', image: 'https://images.unsplash.com/photo-1604036006056-324d6ab43756?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Paneer Sada Dosa', category: 'Paneer', price: 130, description: 'Paneer-stuffed crisp dosa', image: 'https://images.unsplash.com/photo-1559046764-6e6d8ff4b737?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Paneer Masala Dosa', category: 'Paneer', price: 150, description: 'Masala dosa with fresh paneer', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Paneer Mysore Dosa', category: 'Paneer', price: 160, description: 'Mysore dosa garnished with paneer', image: 'https://images.unsplash.com/photo-1543340588-2e88d86df44d?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Paneer Schezwan Dosa', category: 'Paneer', price: 150, description: 'Schezwan and paneer dosa', image: 'https://images.unsplash.com/photo-1545386738-01a3c6c563db?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Veg Biryani', category: 'Lunch', price: 80, description: 'Aromatic vegetable biryani with raita', image: 'https://images.unsplash.com/photo-1604908177522-7f6632ccf8ff?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Veg Pulao', category: 'Lunch', price: 80, description: 'Fragrant vegetable pulao', image: 'https://images.unsplash.com/photo-1604754742622-87f33548df38?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Tomata Rice', category: 'Lunch', price: 80, description: 'Savory tomato rice', image: 'https://images.unsplash.com/photo-1516684669134-de6dea8fdd72?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Laman Rice', category: 'Lunch', price: 80, description: 'Flavorful lemon rice', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Paneer Biryani', category: 'Lunch', price: 120, description: 'Paneer and spices biryani', image: 'https://images.unsplash.com/photo-1601041615413-9a2f74cb457f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Paneer Pulao', category: 'Lunch', price: 130, description: 'Paneer-peas pulao', image: 'https://images.unsplash.com/photo-1530726350120-792b0d4e57eb?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Tava Pulao', category: 'Lunch', price: 120, description: 'Hot tava-style pulao', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Chees Biriyani', category: 'Lunch', price: 140, description: 'Cheesy fusion biryani', image: 'https://images.unsplash.com/photo-1607003416217-4dce2f68f12a?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Chees Pulav', category: 'Lunch', price: 140, description: 'Cheesy pulao with mix veg', image: 'https://images.unsplash.com/photo-1624341302750-cd8ad04b2b19?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Chees Tava Pulav', category: 'Lunch', price: 160, description: 'Tava pulav with mozzarella', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Sada Dosa', category: 'Dosa', price: 60, description: 'Plain crispy dosa', image: 'https://images.unsplash.com/photo-1543352634-4b2cd6bdec68?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Onion Sada Dosa', category: 'Dosa', price: 70, description: 'Plain dosa topped with onions', image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Mysore Sada Dosa', category: 'Dosa', price: 70, description: 'With Mysore masala spread', image: 'https://images.unsplash.com/photo-1529692236671-f1c3f3f9f66b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Schezwan Sada Dosa', category: 'Dosa', price: 70, description: 'Schezwan flavored dosa', image: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Garlic Sada Dosa', category: 'Dosa', price: 90, description: 'Garlic lover dosa', image: 'https://images.unsplash.com/photo-1508739826987-b79cd8b7da8b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Masala Dosa', category: 'Dosa', price: 90, description: 'Classic masala dosa with potato filling', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80', bestseller: true },
+            { name: 'Mysore Masala Dosa', category: 'Dosa', price: 80, description: 'Spicy masala dosa in Mysore style', image: 'https://images.unsplash.com/photo-1579014526522-1eab5d10d2a7?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Schezwan Masala Dosa', category: 'Dosa', price: 90, description: 'Schezwan twist with potato masala', image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Garlic Masala Dosa', category: 'Dosa', price: 80, description: 'Topwith garlic and masala all the way', image: 'https://images.unsplash.com/photo-1617772043505-02194d56b2f6?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Rava Sada Dosa', category: 'Rava Dosa', price: 80, description: 'Light rava dosa crisp and thin', image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Onion Rava Dosa', category: 'Rava Dosa', price: 90, description: 'Rava dosa with onion', image: 'https://images.unsplash.com/photo-1548777129-8d86ff9f93d3?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Rava Masala Dosa', category: 'Rava Dosa', price: 100, description: 'Rava variant with masala stuffing', image: 'https://images.unsplash.com/photo-1484947942756-ade1c872ceaa?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Onion Rava Masala Dosa', category: 'Rava Dosa', price: 100, description: 'Rava masala with onions', image: 'https://images.unsplash.com/photo-1585238342026-2c8f8d7ea68f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Mysore Rava Dosa', category: 'Rava Dosa', price: 90, description: 'Mysore chutney layered rava dosa', image: 'https://images.unsplash.com/photo-1529692236671-f1c3f3f9f66b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Schezwan Rava Dosa', category: 'Rava Dosa', price: 90, description: 'Schezwan spiced rava dosa', image: 'https://images.unsplash.com/photo-1547036967-23ff3d4e587f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ragi Dosa', category: 'Tirupati Special Dosa', price: 80, description: 'Nutritious ragi dosa', image: 'https://images.unsplash.com/photo-1604917877931-9ec172de6f0b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Ragi Masala Dosa', category: 'Tirupati Special Dosa', price: 100, description: 'Ragi dosa stuffed with masala', image: 'https://images.unsplash.com/photo-1541518589041-b9b85ced6d78?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Spring Dosa', category: 'Tirupati Special Dosa', price: 120, description: 'Spring roll flavors in dosa', image: 'https://images.unsplash.com/photo-1617697595171-b8a92cd2c258?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Set Dosa', category: 'Tirupati Special Dosa', price: 120, description: 'Double soft dosa served with sambar', image: 'https://images.unsplash.com/photo-1506086679522-6e6cf9f26002?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Banana Dosa', category: 'Tirupati Special Dosa', price: 120, description: 'Sweet banana dosa delight', image: 'https://images.unsplash.com/photo-1586961650630-777e810e3754?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Benne Dosa', category: 'Tirupati Special Dosa', price: 160, description: 'Butter-drenched crispy dosa', image: 'https://images.unsplash.com/photo-1547875026-4f8a10df5b8f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cheese Chilli Dosa', category: 'Tirupati Special Dosa', price: 170, description: 'Spicy cheese dosa', image: 'https://images.unsplash.com/photo-1550418290-ea1df62c0cec?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cheese Corn Dosa', category: 'Tirupati Special Dosa', price: 170, description: 'Corn and cheese combo', image: 'https://images.unsplash.com/photo-1601041615413-9a2f74cb457f?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Kerala Masala Dosa', category: 'Tirupati Special Dosa', price: 170, description: 'Coconut style Kerala dosa', image: 'https://images.unsplash.com/photo-1584270354949-7b6021b0ce83?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Garden Dosa', category: 'Tirupati Special Dosa', price: 170, description: 'Veggie-packed colorful dosa', image: 'https://images.unsplash.com/photo-1604908739583-0e573660361a?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Cheese Lays Dosa', category: 'Tirupati Special Dosa', price: 170, description: 'Crispy lays topping dosa', image: 'https://images.unsplash.com/photo-1617691384787-747bf7ac8f64?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Gini Dosa', category: 'Tirupati Special Dosa', price: 180, description: 'Crunchy grilled dosa', image: 'https://images.unsplash.com/photo-1601042970137-85cb5ff054b3?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Pizza Dosa', category: 'Tirupati Special Dosa', price: 180, description: 'Pizza-inspired dosa topping', image: 'https://images.unsplash.com/photo-1599633197402-1d5b2a11e348?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Baby Corn Dosa', category: 'Tirupati Special Dosa', price: 180, description: 'Baby corn dosa specialty', image: 'https://images.unsplash.com/photo-1542382559-6ce2539e366e?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Mushroom Dosa', category: 'Tirupati Special Dosa', price: 180, description: 'Mushroom filled dosa', image: 'https://images.unsplash.com/photo-1586829734798-2e7fdd9bd4c0?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Hat Trick Dosa', category: 'Tirupati Special Dosa', price: 180, description: 'Three flavors in one dosa', image: 'https://images.unsplash.com/photo-1604908470861-5ea44b216a10?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Dilkhush Dosa', category: 'Tirupati Special Dosa', price: 190, description: 'Savory and sweet kombot dosa', image: 'https://images.unsplash.com/photo-1599756605006-69fee43972bc?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Manchurian Dosa', category: 'Tirupati Special Dosa', price: 190, description: 'Indo-Chinese Manchurian flavor dosa', image: 'https://images.unsplash.com/photo-1608571421174-44d9173c931b?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Golmaldosa', category: 'Tirupati Special Dosa', price: 220, description: 'Twisted dosa masterpiece', image: 'https://images.unsplash.com/photo-1562956016-7553a1ec2b91?auto=format&fit=crop&w=800&q=80' },
+            { name: 'Matka Dosa', category: 'Tirupati Special Dosa', price: 240, description: 'Hearty dosa served in traditional matki', image: 'https://images.unsplash.com/photo-1606755962774-524be5d5a4aa?auto=format&fit=crop&w=800&q=80' }
+        ];
+
+        const menuGrid = document.getElementById('menu-grid');
+        const menuEmpty = document.getElementById('menu-empty');
+        const searchInput = document.getElementById('menu-search');
+        const categoryFilter = document.getElementById('menu-category-filter');
+
+        function createMenuCard(item) {
+            const card = document.createElement('article');
+            card.className = 'menu-card';
+            card.dataset.category = item.category;
+            card.dataset.price = item.price;
+            card.dataset.name = item.name;
+            card.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="menu-card-content">
+                    ${item.bestseller ? '<span class="bestseller-pin">📌 Bestseller</span>' : ''}
+                    <h4>${item.name}</h4>
+                    <p>${item.description}</p>
+                    <div class="menu-card-footer">
+                        <span class="menu-card-price">₹${item.price}</span>
+                        <button class="menu-card-action" type="button">Add</button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function applyMenuFilter() {
+            const query = searchInput.value.trim().toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const minPrice = Number(document.getElementById('menu-price-min').value) || 0;
+            const maxPrice = Number(document.getElementById('menu-price-max').value) || Infinity;
+
+            let visibleCount = 0;
+            menuGrid.querySelectorAll('.menu-card').forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const category = card.dataset.category;
+                const price = Number(card.dataset.price);
+                const matchQuery = name.includes(query);
+                const matchCategory = selectedCategory === 'all' || selectedCategory === category;
+                const matchPrice = price >= minPrice && price <= maxPrice;
+                const show = matchQuery && matchCategory && matchPrice;
+                card.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+            menuEmpty.style.display = visibleCount === 0 ? 'block' : 'none';
+
+            if (visibleCount === 0) {
+                menuEmpty.textContent = 'No matching items. Try another filter.';
+            }
+        }
+
+        function bindMenuActions() {
+            menuGrid.querySelectorAll('.menu-card-action').forEach(button => {
+                button.removeEventListener('click', handleAdd); // ignore if not bound
+                button.addEventListener('click', handleAdd);
+            });
+
+            menuGrid.querySelectorAll('.menu-card img').forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', () => {
+                    modalImage.src = img.src;
+                    modalImage.alt = img.alt;
+                    imageModal.classList.add('open');
+                    imageModal.setAttribute('aria-hidden', 'false');
+                });
+            });
+        }
+
+        function handleAdd(event) {
+            const card = event.target.closest('.menu-card');
+            const itemName = card.dataset.name;
+            const price = Number(card.dataset.price);
+            addToCart(itemName, price);
+            cartPanel.classList.add('open');
+            cartPanel.setAttribute('aria-hidden', 'false');
+        }
+
+        function renderMenu() {
+            menuGrid.innerHTML = '';
+            menuItems.forEach(item => menuGrid.appendChild(createMenuCard(item)));
+            bindMenuActions();
+            applyMenuFilter();
+        }
+
+        searchInput.addEventListener('input', applyMenuFilter);
+        categoryFilter.addEventListener('change', applyMenuFilter);
+        document.getElementById('menu-price-min').addEventListener('input', applyMenuFilter);
+        document.getElementById('menu-price-max').addEventListener('input', applyMenuFilter);
+
+        // Cart state
+        const CART_KEY = 'tirupatiCafeCart';
+        let cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+
+        const cartToggle = document.querySelector('.cart-toggle');
+        const cartPanel = document.getElementById('cart-panel');
+        const cartClose = document.querySelector('.cart-close');
+        const cartBody = document.getElementById('cart-body');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+        const clearCartBtn = document.getElementById('clear-cart');
+        const imageModal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalClose = document.querySelector('.modal-close');
+
+        function saveCart() {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        }
+
+        function renderCart() {
+            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            cartTotal.textContent = total.toFixed(2);
+            cartCount.textContent = cart.reduce((qty, item) => qty + item.qty, 0);
+
+            if (cart.length === 0) {
+                cartBody.innerHTML = '<p>Your cart is empty.</p>';
+                return;
+            }
+
+            cartBody.innerHTML = '';
+            cart.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'cart-item';
+                row.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        ₹${item.price.toFixed(2)} x ${item.qty} = ₹${(item.price*item.qty).toFixed(2)}
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" data-name="${item.name}" data-action="dec">-</button>
+                            <span class="quantity">${item.qty}</span>
+                            <button class="qty-btn" data-name="${item.name}" data-action="inc">+</button>
+                            <button class="remove-item" data-name="${item.name}">Remove</button>
+                        </div>
+                    </div>
+                `;
+                cartBody.appendChild(row);
+            });
+        }
+
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            saveCart();
+            renderCart();
+        }
+
+        // instantiate interface
+        renderMenu();
+
+        cartToggle.addEventListener('click', () => {
+            cartPanel.classList.toggle('open');
+            const isOpen = cartPanel.classList.contains('open');
+            cartPanel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        });
+
+        cartBody.addEventListener('click', e => {
+            const target = e.target;
+            if (target.matches('.qty-btn')) {
+                const name = target.dataset.name;
+                const action = target.dataset.action;
+                const item = cart.find(x => x.name === name);
+                if (!item) return;
+
+                if (action === 'inc') item.qty += 1;
+                if (action === 'dec') item.qty = Math.max(1, item.qty - 1);
+
+                saveCart();
+                renderCart();
+            }
+
+            if (target.matches('.remove-item')) {
+                const name = target.dataset.name;
+                cart = cart.filter(x => x.name !== name);
+                saveCart();
+                renderCart();
+            }
+        });
+
+        const checkoutWhatsappBtn = document.getElementById('checkout-whatsapp');
+        const checkoutEmailBtn = document.getElementById('checkout-email');
+
+        function getOrderText() {
+            const lines = cart.map(item => `${item.name} x ${item.qty} = ₹${(item.price * item.qty).toFixed(2)}`);
+            const totalText = `Total: ₹${cart.reduce((sum, item) => sum + item.price * item.qty, 0).toFixed(2)}`;
+            return `Tirupati Cafe Order%0A${lines.join('%0A')}%0A${totalText}`;
+        }
+
+        function showOrderConfirmation(orderId) {
+            const confirmation = document.getElementById('order-confirmation');
+            const text = document.getElementById('order-confirmation-text');
+            text.textContent = `Thanks for your order! Order ID: ${orderId}. You can continue to your selected app.`;
+            confirmation.classList.add('active');
+            confirmation.setAttribute('aria-hidden', 'false');
+        }
+
+        document.getElementById('close-confirmation').addEventListener('click', () => {
+            const confirmation = document.getElementById('order-confirmation');
+            confirmation.classList.remove('active');
+            confirmation.setAttribute('aria-hidden', 'true');
+        });
+
+        checkoutWhatsappBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Add some items first.');
+                return;
+            }
+            const orderId = `TRQ-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
+            const orderMessage = getOrderText();
+            const phone = '919428555380';
+            const url = `https://wa.me/${phone}?text=${orderMessage}`;
+            showOrderConfirmation(orderId);
+            window.open(url, '_blank');
+        });
+
+        checkoutEmailBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Add some items first.');
+                return;
+            }
+            const orderId = `TRQ-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
+            const subject = encodeURIComponent(`Tirupati Cafe Order #${orderId}`);
+            const body = encodeURIComponent(cart.map(item => `${item.name} x ${item.qty} = ₹${(item.price * item.qty).toFixed(2)}`).join('\n') + '\nTotal: ₹' + cart.reduce((sum, item) => sum + item.price * item.qty, 0).toFixed(2) + '\nOrder ID: ' + orderId);
+            showOrderConfirmation(orderId);
+            window.location.href = `mailto:info@tirupaticafe.com?subject=${subject}&body=${body}`;
+        });
+
+        cartClose.addEventListener('click', () => {
+            cartPanel.classList.remove('open');
+        });
+
+        clearCartBtn.addEventListener('click', () => {
+            cart = [];
+            saveCart();
+            renderCart();
+        });
+
+        renderCart();
+
+        // Image modal
+        document.querySelectorAll('.menu-card img').forEach(img => {
+            img.style.cursor = 'zoom-in';
+            img.addEventListener('click', () => {
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                imageModal.classList.add('open');
+                imageModal.setAttribute('aria-hidden', 'false');
+            });
+        });
+        function closeModal() {
+            imageModal.classList.remove('open');
+            imageModal.setAttribute('aria-hidden', 'true');
+            modalImage.src = '';
+        }
+        modalClose.addEventListener('click', closeModal);
+        imageModal.addEventListener('click', e => {
+            if (e.target === imageModal) closeModal();
+        });
+
+        // Carousel functionality
+        let currentSlide = 0;
+        const carouselContainer = document.getElementById('carousel-container');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            currentSlide = index;
+            carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => showSlide(index));
+        });
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % 3;
+            showSlide(currentSlide);
+        }, 5000);
+
+    </script>
+</body>
+</html>
